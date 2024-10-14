@@ -9,17 +9,33 @@
   <body>
     <div id="tab-container">
         <h1>Tab Manager</h1>
-        <h4>
-          <span></span> tabs are allowed
-        </h4>
-        <div id="tab-form">
-          <h4>Number of Allowed Open Tabs</h4>
-          <input type="number" id="tabLimit"/>
-          <button>Save</button>
-        </div>
-        <em>Note: The default amount is 5 tabs</em>
+        <div id="ungrouped-tabs">
+          <ul id="ungrouped-tab-list">
 
-        <p class="error"></p>
+          </ul>
+          <div class="tab-action-tray">
+            <button id="group" class="group-button">
+              Group
+            </button>
+            <button id="remove" class="delete-button">
+              Remove
+            </button>
+          </div>
+          
+        </div>
+        <div id="grouped-tabs">
+          <ul id="grouped-tab-list">
+
+          </ul>
+          <div class="tab-action-tray">
+            <button class="group-button">
+              Ungroup
+            </button>
+            <button class="delete-button">
+              Remove Group
+            </button>
+          </div>
+        </div>
     </div>
     <script src="./tab.js" type="module"></script>
   </body>
