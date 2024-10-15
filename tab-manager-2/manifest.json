@@ -3,20 +3,16 @@
     "name": "Tab Manager for Chrome",
     "version": "1.0",
     "icons": {
-      "16": "images/icon-16.png",
-      "32": "images/icon-32.png",
-      "48": "images/icon-48.png",
-      "128": "images/group.svg"
+      "16": "images/tab.png",
+      "32": "images/tab.png",
+      "48": "images/tab.png",
+      "128": "images/tab.png"
     },
     "permissions": [
         "tabs",
-        "storage",
         "tabGroups"
     ],
     "action": {
         "default_popup": "tab.html"
-    },
-    "background": {
-        "service_worker": "background.js"
     }
 }

@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body{
+    width: 20rem;
+  }
+  
+  h1{
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  #tab-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  #tab-container > h4{
+    text-align: center;
+  }
+  
+  #tab-container > h4 > span{
+    color: rgb(173, 27, 27);
+    font-size: larger;
+  }
+  
+  #tab-form{
+    padding: 10px;
+  }
+  
+  #tab-form h4{
+    padding: 10px;
+    text-align: center;
+  }
+  
+  #tab-form input{
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  #tab-form button{
+    width: 100%;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  em{
+    margin-top: 10px;
+    color: grey;
+    text-align: center;
+    font-size: 10px;
+  }
+  
+  .error{
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+  }

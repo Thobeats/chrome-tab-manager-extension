@@ -1,10 +1,17 @@
+
 const groupButton = document.querySelector('#group');
 const removeButton = document.querySelector('#remove');
+const ungroupButton = document.querySelector('#ungroup');
+const removeGroupButton = document.querySelector('#delete-group');
+const list = document.getElementById('grouped-tab-list');
+
 
 addTabsToList();
 allGroupedTabs();
 groupButton.addEventListener('click', addTabsToGroup);
 removeButton.addEventListener('click', removeTabsFromGroup);
+ungroupButton.addEventListener('click', ungroupTabs);
+removeGroupButton.addEventListener('click', deleteGroupTabs);
 
 
 
@@ -13,7 +20,22 @@ async function allGroupedTabs()
   const grouped = await chrome.tabs.query({});
   const tabs = Object.entries(grouped);
   const groupedTabs = tabs.filter(tab => tab[1].groupId !== chrome.tabGroups.TAB_GROUP_ID_NONE);
-  console.log(Object.entries(groupedTabs));
+
+  let groupIds = groupedTabs.reduce((acc, tab) => {
+    const groupId = tab[1].groupId;
+    if (!acc[groupId])
+    {
+      acc[groupId] = [];
+    }
+    acc[groupId].push(tab[1]);
+    return acc;
+  }, {});
+
+  for (const groupId in groupIds)
+  {
+    addGroupedTabsToList(groupId, groupIds[groupId]);
+  }
+
 }
 
 
@@ -69,25 +91,28 @@ function removeTabsFromGroup()
   chrome.tabs.remove(tabIds, () => addTabsToList());
 }
 
-async function addGroupedTabsToList(groupId)
+async function addGroupedTabsToList(groupId, groupTabs=null)
 {
-  let groupTabs = await chrome.tabs.query({groupId});
-  let group = await chrome.tabGroups.update(groupId, {
+  let group = await chrome.tabGroups.update(parseInt(groupId), {
     collapsed: true,
     title: "Grouped Tabs"
   });
 
+  if (!groupTabs)
+  {
+    groupTabs = await chrome.tabs.query({groupId: parseInt(groupId)});
+  }
   let groupTemplate = `
     <li>
-      <input class='grouped-check-list' type='checkbox' value='${groupId}'><span>${group.title}</span>
-      <ul>
+      <input class='grouped-check-list' type='checkbox' value='${groupId}'> <span>${group.title}</span>
+      <ul class='grouped-list'>
     `;
 
   for (const tab of groupTabs)
   {
     let template = `
       <li>
-        <input class='grouped-tab-check-list' type='checkbox' value='${tab.id}'><span>${tab.title}</span>
+        <span>${tab.title}</span>
       </li>
     `;
 
@@ -96,6 +121,41 @@ async function addGroupedTabsToList(groupId)
 
   groupTemplate += '</ul></li>';
 
-  const list = document.getElementById('grouped-tab-list');
   list.innerHTML += groupTemplate;
 }
+
+
+async function ungroupTabs()
+{
+  const checkboxes = list.querySelectorAll('.grouped-check-list:checked');
+  const groupIds = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
+
+  for (const groupId of groupIds)
+  {
+    const groupTabs = await chrome.tabs.query({groupId: groupId});
+    chrome.tabs.ungroup(groupTabs.map(tab => tab.id))
+    .then(() => addTabsToList())
+    .then(() => {  
+      list.innerHTML = "";
+      allGroupedTabs()
+    });
+  }
+}
+
+async function deleteGroupTabs()
+{
+  const checkboxes = list.querySelectorAll('.grouped-check-list:checked');
+  const groupIds = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
+
+  for (const groupId of groupIds)
+  {
+    const groupTabs = await chrome.tabs.query({groupId: groupId});
+    chrome.tabs.remove(groupTabs.map(tab => tab.id))
+    .then(() => {  
+      list.innerHTML = "";
+      allGroupedTabs()
+    });
+  }
+}
+
+

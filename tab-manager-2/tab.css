@@ -32,6 +32,15 @@ h1{
   margin-bottom: 10px;
 }
 
+.grouped-list{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+  margin-left: 10px;
+}
+
 #tab-container{
   display: flex;
   flex-direction: column;
@@ -49,20 +58,14 @@ h1{
   font-size: larger;
 }
 
-#tab-form{
-  padding: 10px;
-}
-
-#tab-form h4{
-  padding: 10px;
-  text-align: center;
-}
-
 .tab-action-tray{
   display: flex;
-  padding: 10px;
-  justify-content: flex-end;
+  justify-content: right;
   gap: 5px;
+  padding: 10px;
+  border: 1px solid #e2e1e1;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 button{
@@ -83,18 +86,4 @@ button{
 
 .delete-button{
   background-color: #f44336;
-}
-
-em{
-  margin-top: 10px;
-  color: grey;
-  text-align: center;
-  font-size: 10px;
-}
-
-.error{
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 12px;
 }
