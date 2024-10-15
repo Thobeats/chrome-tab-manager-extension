@@ -1,10 +1,8 @@
-
 const groupButton = document.querySelector('#group');
 const removeButton = document.querySelector('#remove');
 const ungroupButton = document.querySelector('#ungroup');
 const removeGroupButton = document.querySelector('#delete-group');
 const list = document.getElementById('grouped-tab-list');
-
 
 addTabsToList();
 allGroupedTabs();
@@ -12,8 +10,6 @@ groupButton.addEventListener('click', addTabsToGroup);
 removeButton.addEventListener('click', removeTabsFromGroup);
 ungroupButton.addEventListener('click', ungroupTabs);
 removeGroupButton.addEventListener('click', deleteGroupTabs);
-
-
 
 async function allGroupedTabs()
 {
@@ -37,10 +33,6 @@ async function allGroupedTabs()
   }
 
 }
-
-
-
-
 
 async function addTabsToList()
 {
@@ -93,10 +85,14 @@ function removeTabsFromGroup()
 
 async function addGroupedTabsToList(groupId, groupTabs=null)
 {
+  let group_name = document.getElementById('group-name');
+
   let group = await chrome.tabGroups.update(parseInt(groupId), {
     collapsed: true,
-    title: "Grouped Tabs"
+    title: group_name.value == '' ? `Group-${(new Date()).getTime()}` : group_name.value
   });
+
+  group_name.value = '';
 
   if (!groupTabs)
   {

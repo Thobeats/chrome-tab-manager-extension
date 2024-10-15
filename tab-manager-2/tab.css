@@ -68,6 +68,11 @@ h1{
   margin-bottom: 10px;
 }
 
+#group-name{
+  text-align: center;
+  font-size: medium;
+}
+
 button{
   width: fit-content;
   padding: .5rem;
